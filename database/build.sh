@@ -23,6 +23,8 @@ apt-get update && apt-get install -yq \
                                       libxslt1-dev \
                                       lzop \
                                       postgresql-9.3 \
+                                      postgresql-9.3-postgis-2.1 \
+                                      postgis \
                                       pv \
                                       python-dev
 
