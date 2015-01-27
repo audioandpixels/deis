@@ -9,7 +9,6 @@ from __future__ import unicode_literals
 import json
 import mock
 import requests
-import unittest
 
 from django.contrib.auth.models import User
 from django.test import TransactionTestCase
@@ -304,7 +303,8 @@ class ContainerTest(TransactionTestCase):
         body = {'web': 'not_an_int'}
         response = self.client.post(url, json.dumps(body), content_type='application/json',
                                     HTTP_AUTHORIZATION='token {}'.format(self.token))
-        self.assertContains(response, 'Invalid scaling format', status_code=400)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data, {'detail': 'Invalid scaling format'})
         body = {'invalid': 1}
         response = self.client.post(url, json.dumps(body), content_type='application/json',
                                     HTTP_AUTHORIZATION='token {}'.format(self.token))
@@ -447,7 +447,7 @@ class ContainerTest(TransactionTestCase):
         response = self.client.post(url, json.dumps(body), content_type='application/json',
                                     HTTP_AUTHORIZATION='token {}'.format(self.token))
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data, "No build associated with this release")
+        self.assertEqual(response.data, {'detail': 'No build associated with this release'})
 
     def test_command_good(self):
         """Test the default command for each container workflow"""
@@ -541,7 +541,6 @@ class ContainerTest(TransactionTestCase):
         rc, output = c.run('echo hi')
         self.assertEqual(json.loads(output)['entrypoint'], '/runner/init')
 
-    @unittest.expectedFailure
     def test_scale_with_unauthorized_user_returns_403(self):
         """An unauthorized user should not be able to access an app's resources.
 

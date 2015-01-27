@@ -10,7 +10,6 @@ import json
 import mock
 import os.path
 import requests
-import unittest
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -248,7 +247,8 @@ class AppTest(TestCase):
         response = self.client.post(url, json.dumps(body), content_type='application/json',
                                     HTTP_AUTHORIZATION='token {}'.format(self.token))
         self.assertEquals(response.status_code, 400)
-        self.assertEquals(response.data, 'Support for admin commands is not configured')
+        self.assertEquals(response.data, {'detail': 'Support for admin commands '
+                                                    'is not configured'})
 
     def test_run_without_release_should_error(self):
         """
@@ -265,10 +265,9 @@ class AppTest(TestCase):
         response = self.client.post(url, json.dumps(body), content_type='application/json',
                                     HTTP_AUTHORIZATION='token {}'.format(self.token))
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data, "No build associated with this release "
-                                        "to run this command")
+        self.assertEqual(response.data, {'detail': 'No build associated with this '
+                                                   'release to run this command'})
 
-    @unittest.expectedFailure
     def test_unauthorized_user_cannot_see_app(self):
         """
         An unauthorized user should not be able to access an app's resources.

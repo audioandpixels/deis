@@ -22,14 +22,10 @@ import sys
 open(os.path.join('..', '__init__.py'), 'a')
 sys.path.insert(0, os.path.abspath(os.path.join('..')))
 sys.path.insert(0, os.path.abspath(os.path.join('..', 'controller')))
-# create local_settings.py for SECRET_KEY if necessary
-local_settings_path = os.path.abspath(
-    os.path.join('..', 'controller', 'deis', 'local_settings.py'))
-if not os.path.exists(local_settings_path):
-    with open(local_settings_path, 'w') as local_settings:
-        local_settings.write("SECRET_KEY = 'DummySecretKey'\n")
 # set up Django
 os.environ['DJANGO_SETTINGS_MODULE'] = 'deis.settings'
+os.environ['DATABASE_ENGINE'] = 'sqlite3'
+os.environ['DATABASE_NAME'] = 'dummy.sqlite3'
 from django.conf import settings  # noqa
 
 # -- General configuration -----------------------------------------------------
