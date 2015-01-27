@@ -7,6 +7,9 @@ if [ -n "$NEW_NODE" ]; then
   MACHINES_IP+=,$NEW_NODE
 fi
 
+# Manually add new node here
+# MACHINES_IP+=,10.132.127.77
+
 echo "Cluster IPs: $MACHINES_IP"
 
 echo "Creating firewall Rules..."
