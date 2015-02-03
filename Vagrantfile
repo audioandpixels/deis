@@ -17,7 +17,7 @@ $num_instances = 1
 $update_channel = ENV["COREOS_CHANNEL"] || "stable"
 $enable_serial_logging = false
 $vb_gui = false
-$vb_memory = 1024
+$vb_memory = 2048
 $vb_cpus = 1
 
 # Attempt to apply the deprecated environment variable NUM_INSTANCES to
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
 
   config.vm.box = "coreos-%s" % $update_channel
-  config.vm.box_version = ">= 522.5.0"
+  config.vm.box_version = ">= 522.6.0"
   config.vm.box_url = "http://%s.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json" % $update_channel
 
   config.vm.provider :vmware_fusion do |vb, override|
